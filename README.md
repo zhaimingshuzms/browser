@@ -1,10 +1,6 @@
 #### Record-Pictures
-- Record Pictures是一个个人照片记录网站
-
-- 该网站可以上传用户的照片并记录拍摄地点，拍摄设备等信息。
-
-- 随着用户上传的照片不断增加，用户将拥有一个完整的照片库，网站将按照地点将其分类，并展示在地图上。
-
+- Record Pictures是一个browser
+- 在[https://github.com/ddy-ddy/record-picture/tree/master/record_picture]的基础上进行魔改
 #### 用到的技术：
 
 - 前端：html+css+JavaScript（目前没有使用类似vue，react等web框架，课设的时候技术太菜(ಥ﹏ಥ)）
@@ -27,14 +23,18 @@ Step3：登陆
 登陆账号：duanyu1@qq.com 
 密码：123456
 ```
+Step4：删库跑路并重新初始化
+```shell
+python gen.py
+```
 
 - 数据库为data.db文件
 - 项目主内容在record_picture文件夹中
 - 项目文档在document中，使用markdown的格式，导出为html格式
-- 项目总文档和ppt在document目录下
+- 项目总文档和ppt在document目录下（原项目的文档）
 
 
-#### 项目总框架:
+#### 项目总框架（原项目的框架）:
 
 ````python
 .
