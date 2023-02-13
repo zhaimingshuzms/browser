@@ -1,6 +1,6 @@
 #### Record-Pictures
 - Record Pictures是一个browser
-- 在[https://github.com/ddy-ddy/record-picture/tree/master/record_picture]的基础上进行魔改
+- 在[原项目](https://github.com/ddy-ddy/record-picture/tree/master/record_picture)的基础上进行魔改
 #### 用到的技术：
 
 - 前端：html+css+JavaScript（目前没有使用类似vue，react等web框架，课设的时候技术太菜(ಥ﹏ಥ)）
