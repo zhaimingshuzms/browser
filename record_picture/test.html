@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <body>
+      <section>
+        <!-- 添加 webkitdirectory 属性，上传文件夹 -->
+        <input type="file" webkitdirectory id="uploadFile" @change="handleChange" />
+    <script>
+    export default {
+      methods: {
+        handleChange() {
+          let files = document.getElementById("uploadFile").files; // FileList 伪数组对象
+          for (let i = 0; i <= files.length - 1; i++) {
+            let file = files[i]; // File 对象
+            console.log(file);
+          }
+        }
+      }
+    };
+    </script>
+  </body>
+</html>

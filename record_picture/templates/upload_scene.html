@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link href="../static/css/profile/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/profile/style.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block aside %}
+    <div style="display:block;margin:auto auto 0;padding:.5rem">
+        <!--设置用户名-->
+        <h3>{{ user_info.profile_name }}</h3>
+        <!--设置用户头像-->
+        <figure class="image">
+            <img id="avatar" class="is-rounded" src="{{ user_info.picture_link }}" style="width:10%;height:auto"/>
+        </figure>
+    </div>
+    <ul id="menu" class="menu-list">
+        <li data-menuanchor="搜索照片🔍"><a href="{{ url_for("search_pictures") }}">搜索照片🔍</a></li>
+        <li data-menuanchor="所有照片"><a href="{{ url_for("show_all_pictures") }}">所有照片🎆</a></li>
+        <li data-menuanchor="上传照片"><a href="{{ url_for("upload") }}">上传照片↑</a></li>
+        <li data-menuanchor="上传场景"><a href="{{ url_for("upload_scene") }}">上传场景↑</a></li>
+        <li data-menuanchor="个人信息"><a href="{{ url_for("user_index") }}">个人信息👨🏻</a></li>
+        <li data-menuanchor="登出账号"><a href="{{ url_for("logout") }}">登出账号</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <form action = "{{ url_for("upload_scene") }}" method = "POST" 
+    enctype = "multipart/form-data">
+    <legend>场景名称</legend>
+    <input type="text" name = "scene">
+    <legend>图片文件</legend>
+    <input type = "file" name = "file" multiple/>
+    <legend>anno.db</legend>
+    <input type = "file" name = "dbfile">
+    <input type = "submit"/>
+    </form>
+{% endblock %}

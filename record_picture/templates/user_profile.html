@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link href="../static/css/profile/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block aside %}
+    <div style="display:block;margin:auto auto 0;padding:.5rem">
+        <!--设置用户名-->
+        <h3>{{ user_info.profile_name }}</h3>
+        <!--设置用户头像-->
+        <figure class="image">
+        <img id="avatar" class="is-rounded" src="{{ user_info.picture_link }}" style="width:10%;height:auto"/>
+        </figure>
+    </div>
+    <ul id="menu" class="menu-list">
+        <li data-menuanchor="搜索照片🔍"><a href="{{ url_for("search_pictures") }}">搜索照片🔍</a></li>
+        <li data-menuanchor="所有照片"><a href="{{ url_for("show_all_pictures") }}">所有照片🎆</a></li>
+        <li data-menuanchor="上传照片"><a href="{{ url_for("upload") }}">上传照片↑</a></li>
+        <li data-menuanchor="上传场景"><a href="{{ url_for("upload_scene") }}">上传场景↑</a></li>
+        <li data-menuanchor="个人信息"><a href="{{ url_for("user_index") }}">个人信息👨🏻</a></li>
+        <li data-menuanchor="登出账号"><a href="{{ url_for("logout") }}">退出登陆</a></li>
+    </ul>
+{% endblock %}
+
+
+{% block content %}
+    <div id="content">
+        <div id="fullpage">
+            <!--===========================个人中心=============================================-->
+            <div class="section hero is-fullheight page" id="anchor_1">
+                <div class="is-flex is-flex-direction-column" style="height: 100%;">
+                    <!--大写标题-->
+                    <div class="flex: 1;">
+                        <h1><span class="text-primary">个人信息</span></h1>
+                    </div>
+                    <!--内容-->
+                    <div class="is-flex is-flex-direction-column is-justify-content-center"
+                         style="flex: 1; overflow: auto;">
+
+                        <div class="row">
+                            <!-- Column -->
+                            <div class="col-lg-4 col-xlg-3 col-md-5">
+                                <div class="card" style="margin-top: 8%">
+                                    <div class="card-block">
+                                        <center class="m-t-30"><img src="{{ user_info.picture_link }}"
+                                                                    class="img-circle"
+                                                                    width="150"/>
+                                            <h4 class="card-title m-t-10">{{ user_info.profile_name }}</h4>
+
+                                            <form method="POST" enctype="multipart/form-data"
+                                                  action="{{ url_for("change_form") }}">
+                                                {{ form.hidden_tag() }}
+                                                {{ form.photo }}
+                                                {% for error in form.photo.errors %}
+                                                    <span style="color: red;">{{ error }}</span>
+                                                {% endfor %}
+                                                {{ form.submit }}
+                                            </form>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <div class="col-lg-8 col-xlg-5 col-md-10">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <form class="form-horizontal form-material" name="information" method="post"
+                                              action="{{ url_for("change_info") }}">
+                                            <div class="form-group">
+                                                <label class="col-md-12">名字</label>
+                                                <div class="col-md-12">
+                                                    <input type="text" placeholder="{{ user_info.profile_name }}"
+                                                           class="form-control form-control-line" name="name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-email" class="col-md-12">国家</label>
+                                                <div class="col-md-12">
+                                                    <input type="text" placeholder="{{ user_info.country }}"
+                                                           class="form-control form-control-line" name="country"
+                                                           id="email">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-12">联系电话</label>
+                                                <div class="col-md-12">
+                                                    <input type="text" placeholder="{{ user_info.iphone }}"
+                                                           class="form-control form-control-line" name="iphone">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <button class="btn btn-success">更新信息</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        {% for message in get_flashed_messages() %}
+            {% if message=="flag_welcome" %}
+                window.alert("欢迎你:" + "{{ user_info.login_name }}" + ",请修改个人信息及头像");
+            {% endif %}
+        {% endfor %}
+    </script>
+{% endblock %}
