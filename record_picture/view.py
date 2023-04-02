@@ -169,6 +169,20 @@ def delete_picture(P_id):
     db.session.commit()
     return redirect(url_for("show_all_pictures"))
 
+@app.route('/delete_scene/<string:scene>', methods=["POST"])
+@login_required
+def delete_scene(scene):
+    info = db.session.query(Picture).filter(Picture.scene == scene)
+    for pic in info:
+        try:
+            path = f"{os.getcwd()}/user_uploads/{info.login_name}/user_images/" + str(
+                pic.picture_url.split("/")[-1])
+            os.remove(path)  # 删除文件
+        except:
+            pass
+        db.session.delete(pic)
+    db.session.commit()
+    return redirect(url_for("show_all_pictures"))
 
 # 展示照片
 @app.route('/show_all_pictures', methods=["GET", "POST"])
@@ -179,20 +193,32 @@ def show_all_pictures():
     return render_template("user_pictures.html", user_info=user_info, pictures_info=pictures_info, tag="所有照片")
 
 
-# 搜索照片
+# 搜索场景
 @app.route('/search_pictures', methods=["GET", "POST"])
 @login_required
 def search_pictures():
     user_info = current_user
     if request.method == 'POST':
+        print("rq",request.values)
         search_info = request.form.get("search_info")
-
         tmp = search(search_info)
-        pictures_info = db.session.query(Picture).filter(and_(Picture.login_name == user_info.login_name,or_(Picture.title == tmp,Picture.scene == tmp))).all()
-
+        #if request.form.get("search_range")=="on":
+        pictures_info = db.session.query(Picture).filter(and_(Picture.login_name == user_info.login_name,Picture.scene == tmp)).all()
+        #else:
+        #    pictures_info = db.session.query(Picture).filter(Picture.scene == tmp).all()
         # pictures_info = db.session.query(Picture).filter(Picture.title == search_info[0]).all()
         return render_template("user_pictures.html", user_info=user_info, pictures_info=pictures_info)
     return render_template("user_search.html", user_info=user_info)
+
+# 场景列表
+@app.route('/user_scenes', methods=["GET", "POST"])
+@login_required
+def user_scenes():
+    user_info = current_user
+    pictures_info = db.session.query(Picture).filter(Picture.login_name == user_info.login_name).all()
+    scenes = [i.scene for i in pictures_info]
+    scenes = list(set(scenes))
+    return render_template("user_scenes.html", user_info=user_info, scenes=scenes)
 
 #上传场景
 @app.route('/upload_scene', methods=["GET", "POST"])

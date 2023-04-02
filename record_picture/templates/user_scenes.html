@@ -46,36 +46,22 @@
                                             <a class="show-a1" href="">{{ tag }}</a>
                                         </div>
                                     </div>
-                                    {% for pictures in pictures_info %}
+                                    {% for scene in scenes %}
                                         <!--第一张浮窗图片-->
                                         <div class="col-lg-3 col-md-6">
                                             <div class="featured-item pd-bottom-90">
-                                                <div class="thumb">
-                                                    <a href="{{ pictures.picture_url }}">
-                                                        <img style="height: auto;max-width:30%"
-                                                             src={{ pictures.picture_url }} alt="img"/>
-                                                    </a>
-                                                </div>
                                                 <div class="featured-item-meta">
-                                                    <h2>
-                                                        <b>title</b>
-                                                        <a href="">{{ pictures.title }}</a>
-                                                    </h2>
                                                     <ul>
                                                         <li>
                                                             <b>scene</b>
-                                                            {{ pictures.scene }}
-                                                        </li>
-                                                        <li>
-                                                            <b>comment</b>
-                                                            {{ pictures.comment }}
+                                                            {{ scene }}
                                                         </li>
                                                         <li>
                                                             <form  method="post"
-                                                                  action="{{ url_for("delete_picture",P_id=pictures.id) }}">
+                                                                  action="{{ url_for("delete_scene",scene = scene) }}">
                                                                 <input  type="submit" name="delete"
                                                                        value="×"
-                                                                       onclick="return confirm('你确定要删除该照片吗?')">
+                                                                       onclick="return confirm('你确定要删除该场景吗?')">
                                                             </form>
                                                         </li>
                                                     </ul>

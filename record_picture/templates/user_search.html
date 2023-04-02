@@ -15,9 +15,9 @@
         </figure>
     </div>
     <ul id="menu" class="menu-list">
-        <li data-menuanchor="搜索照片🔍"><a href="{{ url_for("search_pictures") }}">搜索照片🔍</a></li>
-        <li data-menuanchor="所有照片"><a href="{{ url_for("show_all_pictures") }}">所有照片🎆</a></li>
-        <li data-menuanchor="上传照片"><a href="{{ url_for("upload") }}">上传照片↑</a></li>
+        <li data-menuanchor="搜索照片🔍"><a href="{{ url_for("search_pictures") }}">搜索场景🔍</a></li>
+        <li data-menuanchor="所有照片"><a href="{{ url_for("show_all_pictures") }}">所有场景🎆</a></li>
+        <li data-menuanchor="所有照片"><a href="{{ url_for("user_scenes") }}">场景列表</a></li>
         <li data-menuanchor="上传场景"><a href="{{ url_for("upload_scene") }}">上传场景↑</a></li>
         <li data-menuanchor="个人信息"><a href="{{ url_for("user_index") }}">个人信息👨🏻</a></li>
         <li data-menuanchor="登出账号"><a href="{{ url_for("logout") }}">退出登陆</a></li>
@@ -28,13 +28,12 @@
 {% block content %}
     <div id="content">
         <div id="fullpage">
-            <!--===========================根据地点搜索图片并展示=============================================-->
             <div class="is-flex is-flex-direction-column" style="height: 100%;">
                 <!--搜索-->
                 <div class="s004" style=" background: url('../static/image/search.JPG') ;background-size: cover">
                     <form method="post" action="{{ url_for("search_pictures") }}">
                         <fieldset>
-                            <legend>搜索你的照片</legend>
+                            <legend>搜索你的场景</legend>
                             <div class="inner-form">
                                 <div class="input-field">
                                     <input class="form-control" id="choices-text-preset-values" type="text"
@@ -56,14 +55,14 @@
     <fieldset>
         <legend>搜索范围</legend>
     
-        <div>
-          <input type="checkbox" id="user" name="search_range" checked>
-          <label for="scales">本用户</label>
+        <div>    
+            <input type="checkbox" id="user" name="search_range" checked>
+            <label for="scales">本用户</label>
         </div>
     
         <div>
-          <input type="checkbox" id="global" name="search_range">
-          <label for="horns">全局</label>
+            <input type="checkbox" id="global" name="search_range">
+           <label for="horns">全局</label>
         </div>
     </fieldset>
 {% endblock %}
