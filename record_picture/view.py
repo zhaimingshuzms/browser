@@ -225,60 +225,21 @@ def user_scenes():
 @login_required
 def upload_scene():
     user_info = current_user
-    title, comment = [], []
     if request.method == 'POST':
         scene_name = request.form.get("scene")
-        dbfile = request.files.get("dbfile")
-        path = os.path.join("user_uploads",user_info.login_name,"user_images",secure_filename(dbfile.filename))
-        dbfile.save(path)
         from sqlalchemy import create_engine
         from sqlalchemy.orm import sessionmaker
         from sqlalchemy import Table, Column, Integer, MetaData, String
-
-        # 连接数据库
-        engine = create_engine("sqlite:///"+path)
-
-        # 创建数据库会话
-        Session = sessionmaker(bind=engine)
-        db2 = Session()
-
-        # 获取元数据
-        metadata = MetaData()
-
-        # 定义表结构
-        table = Table('post', metadata,
-                    Column('id', Integer, primary_key=True),
-                    Column('author_id', Integer),
-                    Column('created', String),
-                    Column('title', String),
-                    Column('body', String),
-                    Column('body2', String),
-                    Column('image_path', String),
-                    )
-
-        # 执行查询
-        query = db2.query(table)
-
-        # 读取数据
-        title.append(scene_name+"_0")
-        comment.append("")
-        for row in query:
-        #   print(row)
-            title.append(scene_name+"_"+str(row[0]))
-            comment.append(row[5])
-        # 关闭数据库会话
-        
-        db2.close()
         files = request.files.getlist("file")
         # print(user_info.login_name,file=sys.stderr)
         ind = 0
         for file in files:
             #path = os.path.join("user_uploads",user_info.login_name,"user_images",secure_filename(file.filename))
             #file.save(path)
-            filename = photos.save(file, name=f"{user_info.login_name}/user_images/{file.filename}.")
+            filename = photos.save(file, name=f"{user_info.login_name}/user_images/{scene_name}/{os.path.splitext(file.filename)[0]}.")
             file_url = str(photos.url(filename))
             pic = Picture(login_name=user_info.login_name, picture_url=file_url,
-                      title=title[ind], scene=scene_name, comment=comment[ind])
+                      title=scene_name+str(ind), scene=scene_name)
             ind = ind + 1
             db.session.add(pic)
             db.session.commit()

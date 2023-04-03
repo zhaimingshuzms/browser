@@ -67,10 +67,6 @@
                                                             {{ pictures.scene }}
                                                         </li>
                                                         <li>
-                                                            <b>comment</b>
-                                                            {{ pictures.comment }}
-                                                        </li>
-                                                        <li>
                                                             <form  method="post"
                                                                   action="{{ url_for("delete_picture",P_id=pictures.id) }}">
                                                                 <input  type="submit" name="delete"

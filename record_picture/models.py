@@ -38,11 +38,9 @@ class Picture(db.Model):
     login_name:登陆账号
     picture_url:照片存储url
     title:照片标题
-    comment:照片评论
     '''
     id = db.Column(db.Integer, primary_key=True)
     login_name = db.Column(db.String(20))
     picture_url = db.Column(db.String(100))
     title = db.Column(db.String(20))
     scene = db.Column(db.String(200))
-    comment = db.Column(db.String(200))
