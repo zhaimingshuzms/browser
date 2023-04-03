@@ -18,7 +18,6 @@
     </div>
     <ul id="menu" class="menu-list">
         <li data-menuanchor="搜索照片🔍"><a href="{{ url_for("search_pictures") }}">搜索场景🔍</a></li>
-        <li data-menuanchor="所有照片"><a href="{{ url_for("show_all_pictures") }}">所有场景🎆</a></li>
         <li data-menuanchor="所有照片"><a href="{{ url_for("user_scenes") }}">场景列表</a></li>
         <li data-menuanchor="上传场景"><a href="{{ url_for("upload_scene") }}">上传场景↑</a></li>
         <li data-menuanchor="个人信息"><a href="{{ url_for("user_index") }}">个人信息👨🏻</a></li>
@@ -32,48 +31,32 @@
         <div id="fullpage">
             <!--===========================展示所有照片=============================================-->
             <div class="section hero is-fullheight page" id="anchor_1" style="padding: 1rem 3rem;">    <!--修改padding-->
-                <div class="is-flex is-flex-direction-column" style="height: 100%;">
-                    <!--内容-->
-                    <div class="is-flex is-flex-direction-column is-justify-content-center"
-                         style="flex: 1; overflow: auto;">
-                        <!--所有照片-->
-                        <div class="featured-area pd-top-200">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <!--图片区域顶部-->
-                                    <div class="col-lg-12">
-                                        <div class="section-title">
-                                            <a class="show-a1" href="">{{ tag }}</a>
-                                        </div>
-                                    </div>
-                                    {% for scene in scenes %}
-                                        <!--第一张浮窗图片-->
-                                        <div class="col-lg-3 col-md-6">
-                                            <div class="featured-item pd-bottom-90">
-                                                <div class="featured-item-meta">
-                                                    <ul>
-                                                        <li>
-                                                            <b>scene</b>
-                                                            {{ scene }}
-                                                        </li>
-                                                        <li>
-                                                            <form  method="post"
-                                                                  action="{{ url_for("delete_scene",scene = scene) }}">
-                                                                <input  type="submit" name="delete"
-                                                                       value="×"
-                                                                       onclick="return confirm('你确定要删除该场景吗?')">
-                                                            </form>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+                <!--图片区域顶部-->
+                {% for scene in scenes %}
+                    <!--第一张浮窗图片-->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="featured-item pd-bottom-90">
+                            <div class="featured-item-meta">
+                                <div class="form-container">
+                                        <form method="post">
+                                            <input type="submit" name="submit_button" value={{scene.name}}>
+                                        </form>
+                                        <form  method="post"
+                                            action="{{ url_for("delete_scene",scene = scene.name) }}">
+                                            <input  type="submit" name="delete"
+                                                value="×"
+                                                onclick="return confirm('你确定要删除该场景吗?')">
+                                        </form>
+                                </div>
+                                <div class="thumbnail-container">
+                                    {% for picture in scene.pictures %}
+                                        <img src="{{ picture.picture_url}}" alt="Thumbnail">
                                     {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -44,3 +44,8 @@ class Picture(db.Model):
     picture_url = db.Column(db.String(100))
     title = db.Column(db.String(20))
     scene = db.Column(db.String(200))
+
+class Scene():
+    def __init__(self, name, pictures):
+        self.name = name
+        self.pictures = pictures

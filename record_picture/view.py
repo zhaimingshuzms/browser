@@ -10,7 +10,7 @@ from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash
 from record_picture import db
-from record_picture.models import User, Picture
+from record_picture.models import User, Picture, Scene
 from .util import *
 from sqlalchemy.sql import and_, or_
 from werkzeug.utils import secure_filename
@@ -167,7 +167,7 @@ def delete_picture(P_id):
         pass
     db.session.delete(info)
     db.session.commit()
-    return redirect(url_for("show_all_pictures"))
+    return 'picture deleted successfully'
 
 @app.route('/delete_scene/<string:scene>', methods=["POST"])
 @login_required
@@ -182,7 +182,7 @@ def delete_scene(scene):
             pass
         db.session.delete(pic)
     db.session.commit()
-    return redirect(url_for("show_all_pictures"))
+    return redirect(url_for("user_scenes"))
 
 # 展示照片
 @app.route('/show_all_pictures', methods=["GET", "POST"])
@@ -199,7 +199,6 @@ def show_all_pictures():
 def search_pictures():
     user_info = current_user
     if request.method == 'POST':
-        print("rq",request.values)
         search_info = request.form.get("search_info")
         tmp = search(search_info)
         #if request.form.get("search_range")=="on":
@@ -215,9 +214,17 @@ def search_pictures():
 @login_required
 def user_scenes():
     user_info = current_user
+    if request.method == 'POST':
+        tmp = request.form["submit_button"]
+        pictures_info = db.session.query(Picture).filter(and_(Picture.login_name == user_info.login_name,Picture.scene == tmp)).all()
+        return render_template("user_pictures.html", user_info=user_info, pictures_info=pictures_info)
     pictures_info = db.session.query(Picture).filter(Picture.login_name == user_info.login_name).all()
-    scenes = [i.scene for i in pictures_info]
-    scenes = list(set(scenes))
+    tmp = [i.scene for i in pictures_info]
+    scenes = []
+    for i in tmp:
+        if not i in scenes:
+            scenes.append(i)
+    scenes = [Scene(i,db.session.query(Picture).filter(and_(Picture.login_name == user_info.login_name,Picture.scene == i)).all()) for i in scenes]
     return render_template("user_scenes.html", user_info=user_info, scenes=scenes)
 
 #上传场景
@@ -244,5 +251,5 @@ def upload_scene():
             db.session.add(pic)
             db.session.commit()
         #存储图片
-        return 'file uploaded successfully'
+        return 'files uploaded successfully'
     return render_template("upload_scene.html", user_info=user_info)
