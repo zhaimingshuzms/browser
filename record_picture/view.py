@@ -160,11 +160,11 @@ def upload():
 def delete_picture(P_id):
     info = db.session.query(Picture).filter(Picture.id == P_id).first()
     try:
-        path = f"{os.getcwd()}/user_uploads/{info.login_name}/user_images/" + str(
+        path = f"{os.getcwd()}/user_uploads/{info.login_name}/user_images/{info.scene}/" + str(
             info.picture_url.split("/")[-1])
         os.remove(path)  # 删除文件
     except:
-        pass
+        assert False
     db.session.delete(info)
     db.session.commit()
     return 'picture deleted successfully'
@@ -172,15 +172,21 @@ def delete_picture(P_id):
 @app.route('/delete_scene/<string:scene>', methods=["POST"])
 @login_required
 def delete_scene(scene):
-    info = db.session.query(Picture).filter(Picture.scene == scene)
+    info = db.session.query(Picture).filter(Picture.scene == scene).all()
     for pic in info:
         try:
-            path = f"{os.getcwd()}/user_uploads/{info.login_name}/user_images/" + str(
+            path = f"{os.getcwd()}/user_uploads/{pic.login_name}/user_images/{scene}/" + str(
                 pic.picture_url.split("/")[-1])
+            #print("path",path)
             os.remove(path)  # 删除文件
         except:
-            pass
+            assert False
         db.session.delete(pic)
+    try:
+        path = f"{os.getcwd()}/user_uploads/{info[0].login_name}/user_images/{scene}/"
+        os.rmdir(path)
+    except:
+        assert False
     db.session.commit()
     return redirect(url_for("user_scenes"))
 
