@@ -1,6 +1,4 @@
-
-str = ""
-str +=('''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -14,9 +12,8 @@ str +=('''<!DOCTYPE html>
     width: 100%;
     }
     .thumbnail-container img {
-        width: 150px;
+        width: 45%;
         height: auto;
-        display: inline-block;
     }
     ul{
         float: left;
@@ -72,43 +69,28 @@ str +=('''<!DOCTYPE html>
 <body>
 
 
-<!--====================================1.è®¾ç½®ä¾§è¾¹æ¡†===========================================================-->
+<!--====================================1.ÉèÖÃ²à±ß¿ò===========================================================-->
 <aside id="sidebar" class="menu is-hidden-touch">
 </aside>
 <div id="content">
     <div id="fullpage">
-        <!--===========================å±•ç¤ºæ‰€æœ‰ç…§ç‰‡=============================================-->
-        <div class="section hero is-fullheight page" id="anchor_1" style="padding: 1rem 3rem;">    <!--ä¿®æ”¹padding-->
-            <!--å›¾ç‰‡åŒºåŸŸé¡¶éƒ¨-->
-                <!--ç¬¬ä¸€å¼ æµ®çª—å›¾ç‰‡-->
+        <!--===========================Õ¹Ê¾ËùÓĞÕÕÆ¬=============================================-->
+        <div class="section hero is-fullheight page" id="anchor_1" style="padding: 1rem 3rem;">    <!--ĞŞ¸Äpadding-->
+            <!--Í¼Æ¬ÇøÓò¶¥²¿-->
+                <!--µÚÒ»ÕÅ¸¡´°Í¼Æ¬-->
             <div class="col-lg-3 col-md-6">
                 <div class="featured-item pd-bottom-90">
                     <div class="featured-item-meta">
-                    ''')
-
-import os
-l = os.listdir()
-tasks = [i for i in l if os.path.isdir(i)]
-
-tasks.sort(key = lambda x:int(x.split('_')[-1]))
-
-for task in tasks:
-    images = os.listdir(task)
-
-    str+=(f'''<ul>
-                                <li><a href="user_upload/{task}/base.html" target="_blank">{task}</a></li>
+                    <ul>
+                                <li><a href="../../base.html" target="_blank">Back</a></li>
                             </ul>
-                        ''')
-    str+=('''<div class="thumbnail-container">
-    ''')
-    for image in images:
-        if os.path.splitext(image)[-1]!='.png':
-            continue
-        str+=(f'''<img src="user_upload/{task}/{image}" alt="Thumbnail">
-        ''')
-    str+=('''</div>
-    ''')
-str+=('''</div>
+                            <br />
+                        <div class="thumbnail-container">
+    <img src=scene_1.png alt="Thumbnail">
+        <img src=scene_2.png alt="Thumbnail">
+        <img src=scene_3.png alt="Thumbnail">
+        </div>
+    </div>
                     </div>
                 </div>
             </div>
@@ -117,6 +99,4 @@ str+=('''</div>
 
 
 </body>
-</html>''')
-with open("base.html","w") as f:
-    f.write(str)
+</html>

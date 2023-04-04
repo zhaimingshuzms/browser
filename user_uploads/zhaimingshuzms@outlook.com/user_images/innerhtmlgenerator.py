@@ -1,6 +1,4 @@
-
-str = ""
-str +=('''<!DOCTYPE html>
+head =('''<!DOCTYPE html>
 <html lang="en">
 <head>
 <style>
@@ -14,9 +12,8 @@ str +=('''<!DOCTYPE html>
     width: 100%;
     }
     .thumbnail-container img {
-        width: 150px;
+        width: 45%;
         height: auto;
-        display: inline-block;
     }
     ul{
         float: left;
@@ -86,29 +83,7 @@ str +=('''<!DOCTYPE html>
                     <div class="featured-item-meta">
                     ''')
 
-import os
-l = os.listdir()
-tasks = [i for i in l if os.path.isdir(i)]
-
-tasks.sort(key = lambda x:int(x.split('_')[-1]))
-
-for task in tasks:
-    images = os.listdir(task)
-
-    str+=(f'''<ul>
-                                <li><a href="user_upload/{task}/base.html" target="_blank">{task}</a></li>
-                            </ul>
-                        ''')
-    str+=('''<div class="thumbnail-container">
-    ''')
-    for image in images:
-        if os.path.splitext(image)[-1]!='.png':
-            continue
-        str+=(f'''<img src="user_upload/{task}/{image}" alt="Thumbnail">
-        ''')
-    str+=('''</div>
-    ''')
-str+=('''</div>
+tail=('''</div>
                     </div>
                 </div>
             </div>
@@ -118,5 +93,30 @@ str+=('''</div>
 
 </body>
 </html>''')
-with open("base.html","w") as f:
-    f.write(str)
+
+import os
+l = os.listdir()
+tasks = [i for i in l if os.path.isdir(i)]
+
+tasks.sort(key = lambda x:int(x.split('_')[-1]))
+
+for task in tasks:
+    images = os.listdir(task)
+    str = ""
+    str+=(f'''<ul>
+                                <li><a href="../../base.html" target="_blank">Back</a></li>
+                            </ul>
+                            <br />
+                        ''')
+    str+=('''<div class="thumbnail-container">
+    ''')
+    for image in images:
+        if os.path.splitext(image)[-1]!='.png':
+            continue
+        str+=(f'''<img src={image} alt="Thumbnail">
+        ''')
+    str+=('''</div>
+    ''')
+
+    with open(f"{task}/base.html","w") as f:
+        f.write(head+str+tail)
